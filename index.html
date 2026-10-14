@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Reputable · Recruiting Scorecard</title>
+<style>
+:root{--bg:#0e0f0c;--s:#151611;--s2:#1c1e17;--b:#2a2c24;--lime:#c8f135;--t:#f0f0e8;--t2:#9a9c8a;--red:#e05252;--amb:#e9a84c;--grn:#3ecf8e;--r:12px}
+*{box-sizing:border-box;margin:0;padding:0}body{background:var(--bg);color:var(--t);font:15px/1.5 Inter,system-ui,-apple-system,Segoe UI,sans-serif}
+nav{display:flex;justify-content:space-between;align-items:center;padding:14px 24px;border-bottom:1px solid var(--b);position:sticky;top:0;background:rgba(14,15,12,.92);backdrop-filter:blur(10px);z-index:5}
+.brand{font-weight:800;letter-spacing:.02em;text-transform:uppercase}.tag{background:var(--lime);color:#000;font-size:11px;font-weight:700;padding:3px 10px;border-radius:99px;text-transform:uppercase}
+.wrap{max-width:1150px;margin:0 auto;padding:24px;display:grid;grid-template-columns:1fr 1fr;gap:24px}
+@media(max-width:860px){.wrap{grid-template-columns:1fr;padding:14px}}
+h1{font-size:26px;margin:24px 24px 0;max-width:1150px}.sub{color:var(--t2);margin:4px 24px 0}
+@media(min-width:1198px){h1,.sub{margin-left:auto;margin-right:auto;padding:0 24px}}
+.card{background:var(--s);border:1px solid var(--b);border-radius:var(--r);padding:18px}
+.card h2{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--lime);margin-bottom:12px}
+label{display:block;font-size:13px;color:var(--t2);margin:12px 0 4px}
+select,input[type=number],input[type=text]{width:100%;background:var(--s2);color:var(--t);border:1px solid var(--b);border-radius:8px;padding:10px;font-size:15px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.tog{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--b)}.tog span{font-size:14px}
+.sw{position:relative;width:46px;height:26px;flex:none}.sw input{display:none}.sw i{position:absolute;inset:0;background:#333;border-radius:99px;transition:.2s;cursor:pointer}
+.sw i:after{content:'';position:absolute;left:3px;top:3px;width:20px;height:20px;background:#fff;border-radius:50%;transition:.2s}.sw input:checked+i{background:var(--lime)}.sw input:checked+i:after{left:23px}
+.ex{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px}button{background:var(--s2);color:var(--t);border:1px solid var(--b);border-radius:99px;padding:8px 14px;cursor:pointer;font-size:13px}button:hover{border-color:var(--lime)}
+.res{display:grid;grid-template-columns:1fr 1fr;gap:12px}.res .card{padding:14px}.k{font-size:12px;color:var(--t2);text-transform:uppercase;letter-spacing:.06em}.v{font-size:26px;font-weight:800;margin-top:4px}.n{font-size:13px;color:var(--t2);margin-top:4px}
+.score{grid-column:1/-1;display:flex;align-items:center;gap:18px}.big{font-size:56px;font-weight:900;line-height:1}.band{display:inline-block;padding:4px 12px;border-radius:99px;font-weight:700;color:#000}
+.bar{height:8px;background:var(--s2);border-radius:99px;margin-top:8px;overflow:hidden}.bar div{height:100%}
+.flags{grid-column:1/-1}.flag{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--b);font-size:14px}.dot{width:10px;height:10px;border-radius:50%;margin-top:6px;flex:none}
+details{margin-top:16px}summary{cursor:pointer;color:var(--lime);font-weight:600}
+.wt{display:grid;grid-template-columns:1fr 90px;gap:6px 10px;align-items:center;font-size:13px;margin-top:10px}.wt input{padding:6px}.wt h3{grid-column:1/-1;font-size:12px;color:var(--lime);margin-top:10px;text-transform:uppercase}
+.bd{width:100%;font-size:13px;border-collapse:collapse;margin-top:6px}.bd td{padding:4px 0;border-bottom:1px solid var(--b)}.bd td:last-child{text-align:right}
+footer{color:var(--t2);font-size:12px;text-align:center;padding:24px}
+</style></head><body>
+<nav><div class="brand">Reputable</div><div class="tag">Recruiting Scorecard v2</div></nav>
+<h1>How hard will this study be to recruit?</h1><p class="sub">Fill in the study design. Score, timeline, and ad spend update instantly. Calibrated on 24 past Reputable studies.</p>
+<div class="wrap">
+<div>
+<div class="card"><h2>Study design</h2>
+<div class="ex"><button onclick="ex('percepta')">Load example: Percepta</button><button onclick="ex('tsi')">Load example: TSI</button><button onclick="ex('blank')">Reset</button></div>
+<label>Study name</label><input type="text" id="name">
+<div class="row"><div><label>Participants to enroll</label><input type="number" id="N" min="1"></div><div><label>Deadline (days to fill)</label><input type="number" id="win" min="1"></div></div>
+<label>Study type</label><select id="design"></select>
+<div class="row"><div><label>Wearable required</label><select id="wear"></select></div><div><label>Baseline days needed</label><input type="number" id="base" min="0"></div></div>
+<label>Who qualifies? (pick the strictest that applies)</label><select id="inc"></select>
+<div class="row"><div><label>Screening questions</label><input type="number" id="sq" min="0"></div><div><label>Study length (days)</label><input type="number" id="dur" min="1"></div></div>
+<label>At-home labs / samples</label><select id="labs"></select>
+<label>Product category</label><select id="cat"></select>
+<div style="margin-top:10px">
+<div class="tog"><span>Validated-scale screen (MoCA, FSFI…)</span><label class="sw"><input type="checkbox" id="vs"><i></i></label></div>
+<div class="tog"><span>Shipped product</span><label class="sw"><input type="checkbox" id="ship"><i></i></label></div>
+<div class="tog"><span>ID upload / extra verification step</span><label class="sw"><input type="checkbox" id="idu"><i></i></label></div></div>
+<label>Wearable pool override (optional)</label><input type="number" id="pov" placeholder="Leave blank to use current pool">
+<details><summary>Advanced: weights</summary><div class="wt" id="wt"></div><button style="margin-top:12px" onclick="resetW()">Restore default weights</button></details>
+</div></div>
+<div><div class="res" id="res"></div></div>
+</div>
+<footer>Ranges are planning ranges, not promises. Model: Reputable Recruiting Scorecard v2 (Oct 2026).</footer>
+<script>
+const D={
+ nT:[[15,1],[30,2],[50,3],[80,5],[120,6],[200,8],[1e9,10]],sqPer:0.35,sqMax:6,
+ inc:{"None":[0,1],"Demographic":[3,.6],"Lifestyle habit":[3,.7],"Soft symptom (self-reported)":[7,.5],"Wearable-data threshold":[8,.4],"Medical condition":[20,.1]},
+ vs:12,vsPass:.25,
+ wear:{"Any wearable":[0,6244],"None / device provided":[0,6366],"Oura":[2,5326],"WHOOP":[8,525],"Apple Watch":[10,239],"Fitbit":[12,98],"Garmin":[12,56]},
+ base:[[0,0],[14,1],[28,2]],design:{"VEP":0,"RWE single-arm":1,"RCT 2-arm":3,"RCT 3+ arm":5},
+ dur:[[14,0],[30,1],[60,3],[90,5],[180,8],[1e9,10]],labs:{"None":0,"At-home samples (urine/saliva)":4,"Blood draw":10},ship:1,idu:4,
+ cat:{"Sleep / energy / coffee":0,"Hydration / general wellness":1,"Gut / digestive":2,"Skin / beauty":2,"Women's health":3,"Cognitive":4,"Pain / inflammation":6,"Sexual health":8},
+ cmpN:3,cmp:10,small:1000,long:90,
+ D0:3.3,nexp:.3,pexp:.3,ref:5326,b:.033,dlo:.5,dhi:2,C0:5.1,k:.041,rs:.6,up:.05,maxps:.9,slo:.6,shi:1.7,sext:2.5,pw:.10,pr:.25,
+ floor:{"Easy":0,"Moderate":0,"Hard":.25,"Very Hard":.5,"Extreme":.8}};
+let W=JSON.parse(JSON.stringify(D));
+const EX={blank:{name:"",N:35,win:30,design:"RWE single-arm",wear:"Oura",base:0,inc:"None",vs:0,sq:8,dur:28,labs:"None",ship:1,idu:0,cat:"Sleep / energy / coffee",pov:""},
+ percepta:{name:"Brain Wellness (Percepta)",N:84,win:60,design:"RCT 2-arm",wear:"Oura",base:0,inc:"Soft symptom (self-reported)",vs:1,sq:12,dur:182,labs:"None",ship:1,idu:1,cat:"Cognitive",pov:""},
+ tsi:{name:"Creatine & Digestive Comfort (TSI)",N:35,win:30,design:"RWE single-arm",wear:"Oura",base:28,inc:"Soft symptom (self-reported)",vs:0,sq:10,dur:28,labs:"None",ship:1,idu:0,cat:"Gut / digestive",pov:""}};
+const $=id=>document.getElementById(id);
+function opts(id,o){$(id).innerHTML=Object.keys(o).map(k=>`<option>${k}</option>`).join('')}
+opts('design',D.design);opts('wear',D.wear);opts('inc',D.inc);opts('labs',D.labs);opts('cat',D.cat);
+function ex(k){const e=EX[k];for(const f in e){const el=$(f);if(el.type=='checkbox')el.checked=!!e[f];else el.value=e[f]}calc()}
+const tier=(v,t)=>{for(const[m,p]of t)if(v<=m)return p};
+const basePts=b=>{let p=0;for(const[th,pt]of W.base)if(b>=th)p=pt;return p};
+const band=s=>s<20?"Easy":s<35?"Moderate":s<50?"Hard":s<65?"Very Hard":"Extreme";
+const BC={"Easy":"#3ecf8e","Moderate":"#c8f135","Hard":"#e9a84c","Very Hard":"#f07a3a","Extreme":"#e05252"};
+const BM={"Easy":"Organic + newsletter fills it, usually within 2 weeks","Moderate":"Organic usually fills it on today's pool; light ads only if the pool is tight","Hard":"Plan a paid campaign; organic alone is slow","Very Hard":"Paid plus specialist channels (registries, partners, referrals)","Extreme":"Clinical population; consider panels or fee-for-service partners"};
+const money=x=>'$'+Math.round(x).toLocaleString('en-US');
+function model(s){
+ const pool=s.pov>0?s.pov:W.wear[s.wear][1];
+ const red=(s.inc=="Medical condition")+(s.vs?1:0)+(pool<W.small)+(s.labs=="Blood draw")+(s.dur>W.long);
+ const dims=[["Sample size",tier(s.N,W.nT)],["Screening questions",Math.min(s.sq*W.sqPer,W.sqMax)],["Who qualifies",W.inc[s.inc][0]],["Validated-scale screen",s.vs?W.vs:0],
+  ["Wearable + baseline",W.wear[s.wear][0]+basePts(s.base)],["Study type",W.design[s.design]],
+  ["Burden (length, labs, shipping, ID)",tier(s.dur,W.dur)+W.labs[s.labs]+(s.ship?W.ship:0)+(s.idu?W.idu:0)],["Category",W.cat[s.cat]],
+  ["Compounding friction ("+red+" red factors)",red>=W.cmpN?W.cmp:0]];
+ const score=Math.min(100,Math.round(dims.reduce((a,d)=>a+d[1],0))),bd=band(score);
+ const ep=pool*W.inc[s.inc][1]*(s.vs?W.vsPass:1);
+ const dmid=Math.max(1,W.D0*Math.pow(s.N/35,W.nexp)*Math.pow(W.ref/ep,W.pexp)*Math.exp(W.b*score));
+ const cpo=W.C0*Math.exp(W.k*score),paid=cpo/W.rs,cap=ep*W.up;
+ const ps=s.N<=0?0:Math.min(W.maxps,Math.max(W.floor[bd],1-cap/s.N));
+ const sp=s.N*ps*paid,hiM=(bd=="Extreme"||red>=W.cmpN)?W.sext:W.shi,press=ep>0?s.N/ep:0;
+ const F=[];const R=(t)=>F.push(['r',t]),Y=t=>F.push(['y',t]),G=t=>F.push(['g',t]);
+ if(s.vs)R("Validated-scale screen: only ~25% pass (Percepta MoCA ~1 in 4). Expect about 4 screened per enrollee.");
+ if(s.inc=="Medical condition")R("Must have a diagnosed or chronic condition: only ~10% of the pool qualifies.");
+ if(pool<W.small)R(`Small wearable pool: ${Math.round(pool).toLocaleString()} participants own this device.`);
+ if(s.labs=="Blood draw")R("At-home blood draw: big drop-off plus scheduling lag (Clearlight took 64 days).");
+ if(red>=W.cmpN)R("Compounding friction (3+ red factors): the ProleevaMax pattern. Cost per onboard can run 2x the estimate, so the spend high end is widened.");
+ if(press>=W.pr)R(`Pool pressure ${Math.round(press*100)}%: the target is a large share of everyone eligible. Organic cannot fill it.`);
+ else if(press>=W.pw)Y(`Pool pressure ${Math.round(press*100)}%: the target is over 10% of the eligible pool, so plan ads or partners.`);
+ if(dmid>s.win)Y(`Midpoint ${Math.round(dmid)} days is past your ${s.win}-day deadline.`);
+ if(s.dur>W.long)Y("Long study (90+ days): higher drop-off. Over-enroll ~15%.");
+ if(s.idu)Y("ID upload / extra verification: a main drop-off step for Percepta. Nudge stuck applicants.");
+ if(s.inc=="Wearable-data threshold")Y("Gate on wearable data (e.g. sleep score): NatPat took 29 days for 25.");
+ if(s.inc=="Soft symptom (self-reported)")Y("Self-reported symptom required: about half screen out (TSI ~50%).");
+ if(s.labs=="At-home samples (urine/saliva)")Y("At-home samples: kit logistics and timing burden.");
+ if(s.design=="RCT 3+ arm")Y("3+ arms: confirm per-arm N and randomization balance.");
+ if(s.sq>12)Y("More than 12 screening questions: trim where you can.");
+ if(s.base>=28)Y("28+ day wearable baseline: new device owners cannot qualify yet.");
+ if(s.wear=="WHOOP")G("WHOOP note: Sensate and Cure beat the pool math (WHOOP owners respond well), but ProleevaMax and Mimio struggled.");
+ if(!F.length)G("No major risk flags");
+ return{score,bd,dims,pool,ep,dmid,dlo:Math.round(dmid*W.dlo),dhi:Math.round(dmid*W.dhi),cpo,paid,ps,sp,slo:sp*W.slo,shi:sp*hiM,press,F,red};
+}
+function read(){const g=id=>$(id),n=id=>+g(id).value||0;return{name:g('name').value,N:n('N'),win:n('win'),design:g('design').value,wear:g('wear').value,base:n('base'),inc:g('inc').value,vs:g('vs').checked,sq:n('sq'),dur:n('dur'),labs:g('labs').value,ship:g('ship').checked,idu:g('idu').checked,cat:g('cat').value,pov:n('pov')}}
+function calc(){const s=read(),m=model(s),c=BC[m.bd],col={r:'var(--red)',y:'var(--amb)',g:'var(--grn)'};
+ const ot=m.dmid<=s.win?"Likely on time":m.dmid*W.dlo<=s.win?"At risk for your deadline":"Unlikely to hit your deadline";
+ $('res').innerHTML=`
+ <div class="card score"><div class="big" style="color:${c}">${m.score}</div><div style="flex:1"><div class="k">Difficulty score${s.name?' · '+s.name.replace(/</g,''):''}</div>
+ <span class="band" style="background:${c}">${m.bd}</span><div class="n">${BM[m.bd]}</div><div class="bar"><div style="width:${m.score}%;background:${c}"></div></div></div></div>
+ <div class="card"><div class="k">Days to fill</div><div class="v">${m.dlo}–${m.dhi}</div><div class="n">Midpoint ${Math.round(m.dmid)} days · ${ot}</div></div>
+ <div class="card"><div class="k">Ads needed?</div><div class="v" style="color:${m.ps>0?'var(--amb)':'var(--grn)'}">${m.ps>0?'Yes':'No'}</div><div class="n">${m.ps>0?`About ${Math.round(m.ps*100)}% of onboards from paid ads`:'Organic + newsletter should cover it'}</div></div>
+ <div class="card"><div class="k">Ad spend</div><div class="v">${m.sp<=0?'$0':money(m.slo)+'–'+money(m.shi)}</div><div class="n">${m.sp<=0?'No ads planned':'Midpoint '+money(m.sp)+' · '+money(m.paid)+' per ad-driven onboard'}</div></div>
+ <div class="card"><div class="k">Eligible pool</div><div class="v">${Math.round(m.ep).toLocaleString()}</div><div class="n">of ${Math.round(m.pool).toLocaleString()} wearable owners · target is ${Math.round(m.press*100)}%</div></div>
+ <div class="card flags"><div class="k" style="margin-bottom:4px">Risk flags</div>${m.F.map(f=>`<div class="flag"><span class="dot" style="background:${col[f[0]]}"></span><span>${f[1]}</span></div>`).join('')}</div>
+ <div class="card flags"><details><summary>Score breakdown</summary><table class="bd">${m.dims.map(d=>`<tr><td>${d[0]}</td><td>${+d[1].toFixed(1)}</td></tr>`).join('')}<tr><td><b>Total (max 100)</b></td><td><b>${m.score}</b></td></tr></table></details></div>`;}
+function buildW(){const items=[["h","Points"],["Validated-scale screen points","vs"],["ID upload points","idu"],["Shipped product points","ship"],["Compounding friction bonus","cmp"],["Screening points per question","sqPer"],["Screening points max","sqMax"]];
+ let h='';for(const it of items)h+=it[0]=="h"?`<h3>${it[1]}</h3>`:`<span>${it[0]}</span><input type="number" step="any" data-k="${it[1]}" value="${W[it[1]]}">`;
+ h+='<h3>Who qualifies (points / pass rate)</h3>';for(const k in W.inc)h+=`<span>${k}</span><span style="display:flex;gap:4px"><input type="number" step="any" data-m="inc|${k}|0" value="${W.inc[k][0]}"><input type="number" step="any" data-m="inc|${k}|1" value="${W.inc[k][1]}"></span>`;
+ h+='<h3>Wearable (points / pool)</h3>';for(const k in W.wear)h+=`<span>${k}</span><span style="display:flex;gap:4px"><input type="number" step="any" data-m="wear|${k}|0" value="${W.wear[k][0]}"><input type="number" step="any" data-m="wear|${k}|1" value="${W.wear[k][1]}"></span>`;
+ for(const g of[["design","Study type"],["labs","Labs"],["cat","Category"]]){h+=`<h3>${g[1]}</h3>`;for(const k in W[g[0]])h+=`<span>${k}</span><input type="number" step="any" data-m="${g[0]}|${k}" value="${W[g[0]][k]}">`}
+ h+='<h3>Model parameters</h3>';for(const[k,l]of[["vsPass","Scale pass rate"],["D0","Base days"],["b","Days score coefficient"],["C0","Cost-per-onboard base ($)"],["k","Cost score coefficient"],["rs","Reference paid share"],["up","Organic uptake (share of pool)"],["slo","Spend low multiplier"],["shi","Spend high multiplier"],["sext","Spend high (compounding/Extreme)"],["small","Small pool threshold"]])h+=`<span>${l}</span><input type="number" step="any" data-k="${k}" value="${W[k]}">`;
+ $('wt').innerHTML=h;
+ $('wt').querySelectorAll('input').forEach(i=>i.oninput=()=>{const v=+i.value;if(i.dataset.k)W[i.dataset.k]=v;else{const[a,b,c]=i.dataset.m.split('|');if(c!==undefined)W[a][b][+c]=v;else W[a][b]=v}calc()});}
+function resetW(){W=JSON.parse(JSON.stringify(D));buildW();calc()}
+document.querySelectorAll('input,select').forEach(e=>{if(!e.closest('#wt'))e.addEventListener('input',calc)});
+buildW();ex('percepta');
+if(typeof module!=='undefined')module.exports={model};
+</script></body></html>
