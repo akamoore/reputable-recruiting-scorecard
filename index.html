@@ -1,57 +1,123 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Reputable · Recruiting Scorecard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.8.0/mammoth.browser.min.js"></script>
 <style>
-:root{--bg:#0e0f0c;--s:#151611;--s2:#1c1e17;--b:#2a2c24;--lime:#c8f135;--t:#f0f0e8;--t2:#9a9c8a;--red:#e05252;--amb:#e9a84c;--grn:#3ecf8e;--r:12px}
-*{box-sizing:border-box;margin:0;padding:0}body{background:var(--bg);color:var(--t);font:15px/1.5 Inter,system-ui,-apple-system,Segoe UI,sans-serif}
-nav{display:flex;justify-content:space-between;align-items:center;padding:14px 24px;border-bottom:1px solid var(--b);position:sticky;top:0;background:rgba(14,15,12,.92);backdrop-filter:blur(10px);z-index:5}
-.brand{font-weight:800;letter-spacing:.02em;text-transform:uppercase}.tag{background:var(--lime);color:#000;font-size:11px;font-weight:700;padding:3px 10px;border-radius:99px;text-transform:uppercase}
-.wrap{max-width:1150px;margin:0 auto;padding:24px;display:grid;grid-template-columns:1fr 1fr;gap:24px}
-@media(max-width:860px){.wrap{grid-template-columns:1fr;padding:14px}}
-h1{font-size:26px;margin:24px 24px 0;max-width:1150px}.sub{color:var(--t2);margin:4px 24px 0}
-@media(min-width:1198px){h1,.sub{margin-left:auto;margin-right:auto;padding:0 24px}}
-.card{background:var(--s);border:1px solid var(--b);border-radius:var(--r);padding:18px}
-.card h2{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--lime);margin-bottom:12px}
-label{display:block;font-size:13px;color:var(--t2);margin:12px 0 4px}
-select,input[type=number],input[type=text]{width:100%;background:var(--s2);color:var(--t);border:1px solid var(--b);border-radius:8px;padding:10px;font-size:15px}
-.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.tog{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--b)}.tog span{font-size:14px}
-.sw{position:relative;width:46px;height:26px;flex:none}.sw input{display:none}.sw i{position:absolute;inset:0;background:#333;border-radius:99px;transition:.2s;cursor:pointer}
-.sw i:after{content:'';position:absolute;left:3px;top:3px;width:20px;height:20px;background:#fff;border-radius:50%;transition:.2s}.sw input:checked+i{background:var(--lime)}.sw input:checked+i:after{left:23px}
-.ex{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px}button{background:var(--s2);color:var(--t);border:1px solid var(--b);border-radius:99px;padding:8px 14px;cursor:pointer;font-size:13px}button:hover{border-color:var(--lime)}
-.res{display:grid;grid-template-columns:1fr 1fr;gap:12px}.res .card{padding:14px}.k{font-size:12px;color:var(--t2);text-transform:uppercase;letter-spacing:.06em}.v{font-size:26px;font-weight:800;margin-top:4px}.n{font-size:13px;color:var(--t2);margin-top:4px}
-.score{grid-column:1/-1;display:flex;align-items:center;gap:18px}.big{font-size:56px;font-weight:900;line-height:1}.band{display:inline-block;padding:4px 12px;border-radius:99px;font-weight:700;color:#000}
-.bar{height:8px;background:var(--s2);border-radius:99px;margin-top:8px;overflow:hidden}.bar div{height:100%}
-.flags{grid-column:1/-1}.flag{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--b);font-size:14px}.dot{width:10px;height:10px;border-radius:50%;margin-top:6px;flex:none}
-details{margin-top:16px}summary{cursor:pointer;color:var(--lime);font-weight:600}
-.wt{display:grid;grid-template-columns:1fr 90px;gap:6px 10px;align-items:center;font-size:13px;margin-top:10px}.wt input{padding:6px}.wt h3{grid-column:1/-1;font-size:12px;color:var(--lime);margin-top:10px;text-transform:uppercase}
-.bd{width:100%;font-size:13px;border-collapse:collapse;margin-top:6px}.bd td{padding:4px 0;border-bottom:1px solid var(--b)}.bd td:last-child{text-align:right}
-footer{color:var(--t2);font-size:12px;text-align:center;padding:24px}
+:root{--bg:#f6f5f0;--card:#fff;--ink:#14201b;--ink2:#5d6b64;--ink3:#98a39d;--line:#e7e5dc;--acc:#1f5e4a;--acc2:#e8f1ec;--lime:#b9e23a;--red:#d1495b;--amb:#e0a030;--grn:#2f9e6e;--r:18px;--sh:0 1px 2px rgba(20,32,27,.04),0 8px 24px rgba(20,32,27,.06)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font:15px/1.55 Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+.serif{font-family:Fraunces,Georgia,serif}
+nav{display:flex;justify-content:space-between;align-items:center;padding:16px clamp(16px,4vw,48px);background:rgba(246,245,240,.85);backdrop-filter:blur(12px);position:sticky;top:0;z-index:20;border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:.14em;font-size:13px;text-transform:uppercase}
+.brand b{width:26px;height:26px;border-radius:8px;background:var(--acc);display:grid;place-items:center;color:var(--lime);font-size:14px;letter-spacing:0}
+.navbtn{background:none;border:1px solid var(--line);border-radius:99px;padding:8px 16px;font:500 13px Inter;color:var(--ink);cursor:pointer;transition:.2s}.navbtn:hover{border-color:var(--acc);color:var(--acc)}
+main{max-width:1180px;margin:0 auto;padding:clamp(20px,4vw,48px) clamp(14px,4vw,48px) 64px}
+.hero h1{font:600 clamp(30px,5vw,46px)/1.1 Fraunces,serif;letter-spacing:-.01em}
+.hero p{color:var(--ink2);margin-top:10px;max-width:620px;font-size:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh);padding:clamp(18px,3vw,28px)}
+.drop{margin-top:28px;border:1.5px dashed #c9cfc5;background:linear-gradient(180deg,#fff,#fbfbf7);text-align:center;padding:36px 20px;cursor:pointer;transition:.25s}
+.drop:hover,.drop.over{border-color:var(--acc);background:var(--acc2);transform:translateY(-1px)}
+.drop .ic{width:56px;height:56px;margin:0 auto 12px;border-radius:16px;background:var(--acc2);display:grid;place-items:center;color:var(--acc)}
+.drop h2{font:600 22px Fraunces,serif}.drop p{color:var(--ink2);font-size:14px;margin-top:4px}
+.linkb{background:none;border:none;color:var(--acc);font:600 14px Inter;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.status{margin-top:14px;font-size:14px;display:none;align-items:center;gap:10px;justify-content:center}.status.on{display:flex}
+.status.err{color:var(--red)}.status.ok{color:var(--grn)}
+.spin{width:16px;height:16px;border:2px solid var(--acc2);border-top-color:var(--acc);border-radius:50%;animation:sp 1s linear infinite}@keyframes sp{to{transform:rotate(360deg)}}
+.paste{display:none;margin-top:14px;text-align:left}.paste.on{display:block}
+textarea{width:100%;min-height:140px;border:1px solid var(--line);border-radius:12px;padding:12px;font:14px Inter;resize:vertical;background:#fff}
+.grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:24px;margin-top:24px;align-items:start}
+@media(max-width:900px){.grid{grid-template-columns:1fr}}
+.sticky{position:sticky;top:84px}@media(max-width:900px){.sticky{position:static}}
+.sec{font:600 11px Inter;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);margin-bottom:14px;display:flex;justify-content:space-between;align-items:center}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+.chip{border:1px solid var(--line);background:#fff;border-radius:99px;padding:7px 14px;font:500 13px Inter;cursor:pointer;transition:.2s;color:var(--ink)}.chip:hover{border-color:var(--acc);color:var(--acc)}
+.f{margin-top:14px;position:relative}
+.f>label{display:block;font-size:13px;font-weight:500;color:var(--ink2);margin-bottom:6px}
+select,input[type=number],input[type=text],input[type=password]{width:100%;height:44px;background:#fbfbf8;border:1px solid var(--line);border-radius:12px;padding:0 12px;font:15px Inter;color:var(--ink);transition:.2s;appearance:none}
+select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235d6b64' fill='none' stroke-width='1.6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:34px}
+select:focus,input:focus,textarea:focus{outline:none;border-color:var(--acc);box-shadow:0 0 0 3px var(--acc2)}
+.r2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.auto select,.auto input{background:#f3f9e3;border-color:#bcd77a}
+.why{display:none;font-size:12px;color:var(--ink2);margin-top:5px;line-height:1.4}.auto .why{display:block}
+.conf{display:inline-block;font:600 10px Inter;letter-spacing:.06em;text-transform:uppercase;padding:2px 7px;border-radius:99px;margin-right:6px}
+.c-high{background:#e3f4ea;color:var(--grn)}.c-medium{background:#fbf0d9;color:#a06d10}.c-low{background:#fbe3e6;color:var(--red)}
+.tog{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 0;border-top:1px solid var(--line)}
+.tog .why{flex-basis:100%}.togw{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center}
+.sw{position:relative;width:46px;height:26px;flex:none}.sw input{display:none}.sw i{position:absolute;inset:0;background:#d9dcd3;border-radius:99px;transition:.25s;cursor:pointer}
+.sw i:after{content:'';position:absolute;left:3px;top:3px;width:20px;height:20px;background:#fff;border-radius:50%;transition:.25s;box-shadow:0 1px 3px rgba(0,0,0,.2)}.sw input:checked+i{background:var(--acc)}.sw input:checked+i:after{left:23px}
+.auto.tog,.auto .tog{background:linear-gradient(90deg,#f3f9e3,transparent)}
+.hero-res{display:flex;gap:22px;align-items:center}
+.ring{position:relative;width:132px;height:132px;flex:none}.ring svg{transform:rotate(-90deg)}.ring circle{fill:none;stroke-width:11}
+.ring .tr{stroke:#eef0ea}.ring .pr{stroke-linecap:round;transition:stroke-dashoffset 1s cubic-bezier(.2,.8,.2,1),stroke .6s}
+.ring .num{position:absolute;inset:0;display:grid;place-items:center;font:600 40px Fraunces,serif}
+.ring .num small{display:block;font:500 11px Inter;color:var(--ink3);text-align:center;margin-top:-6px}
+.pill{display:inline-block;padding:5px 13px;border-radius:99px;font:600 13px Inter;transition:.4s}
+.mean{color:var(--ink2);font-size:14px;margin-top:8px}
+.kpis{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+.kpi{padding:18px}.kpi .k{font:600 11px Inter;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3)}.kpi .v{font:600 28px Fraunces,serif;margin-top:4px;line-height:1.15}.kpi .n{font-size:13px;color:var(--ink2);margin-top:4px}
+@media(max-width:480px){.kpis{grid-template-columns:1fr}.hero-res{flex-direction:column;text-align:center}}
+.flag{display:flex;gap:12px;padding:10px 0;border-top:1px solid var(--line);font-size:14px}.flag:first-of-type{border-top:none}
+.dot{width:9px;height:9px;border-radius:50%;margin-top:7px;flex:none}
+details summary{cursor:pointer;font-weight:600;color:var(--acc);list-style:none}details summary::-webkit-details-marker{display:none}details summary:after{content:' ›';display:inline-block;transition:.2s}details[open] summary:after{transform:rotate(90deg)}
+.bd{width:100%;font-size:13px;border-collapse:collapse;margin-top:10px}.bd td{padding:7px 0;border-top:1px solid var(--line)}.bd td:last-child{text-align:right;font-variant-numeric:tabular-nums}
+.wt{display:grid;grid-template-columns:1fr 100px;gap:6px 10px;align-items:center;font-size:13px;margin-top:10px}.wt input{height:34px}.wt h3{grid-column:1/-1;font:600 11px Inter;letter-spacing:.1em;color:var(--ink3);margin-top:12px;text-transform:uppercase}
+.fade{animation:fd .4s ease}@keyframes fd{from{opacity:.4;transform:translateY(3px)}to{opacity:1}}
+.modal{position:fixed;inset:0;background:rgba(20,32,27,.35);backdrop-filter:blur(3px);display:none;place-items:center;z-index:50;padding:16px}.modal.on{display:grid}
+.modal .card{max-width:480px;width:100%}.modal h3{font:600 22px Fraunces,serif;margin-bottom:6px}
+.btn{background:var(--acc);color:#fff;border:none;border-radius:12px;height:42px;padding:0 18px;font:600 14px Inter;cursor:pointer;transition:.2s}.btn:hover{filter:brightness(1.1)}.btn.ghost{background:none;color:var(--ink);border:1px solid var(--line)}
+.small{font-size:12px;color:var(--ink2)}
+footer{color:var(--ink3);font-size:12px;text-align:center;padding:24px}
 </style></head><body>
-<nav><div class="brand">Reputable</div><div class="tag">Recruiting Scorecard v2</div></nav>
-<h1>How hard will this study be to recruit?</h1><p class="sub">Fill in the study design. Score, timeline, and ad spend update instantly. Calibrated on 24 past Reputable studies.</p>
-<div class="wrap">
-<div>
-<div class="card"><h2>Study design</h2>
-<div class="ex"><button onclick="ex('percepta')">Load example: Percepta</button><button onclick="ex('tsi')">Load example: TSI</button><button onclick="ex('blank')">Reset</button></div>
-<label>Study name</label><input type="text" id="name">
-<div class="row"><div><label>Participants to enroll</label><input type="number" id="N" min="1"></div><div><label>Deadline (days to fill)</label><input type="number" id="win" min="1"></div></div>
-<label>Study type</label><select id="design"></select>
-<div class="row"><div><label>Wearable required</label><select id="wear"></select></div><div><label>Baseline days needed</label><input type="number" id="base" min="0"></div></div>
-<label>Who qualifies? (pick the strictest that applies)</label><select id="inc"></select>
-<div class="row"><div><label>Screening questions</label><input type="number" id="sq" min="0"></div><div><label>Study length (days)</label><input type="number" id="dur" min="1"></div></div>
-<label>At-home labs / samples</label><select id="labs"></select>
-<label>Product category</label><select id="cat"></select>
-<div style="margin-top:10px">
-<div class="tog"><span>Validated-scale screen (MoCA, FSFI…)</span><label class="sw"><input type="checkbox" id="vs"><i></i></label></div>
-<div class="tog"><span>Shipped product</span><label class="sw"><input type="checkbox" id="ship"><i></i></label></div>
-<div class="tog"><span>ID upload / extra verification step</span><label class="sw"><input type="checkbox" id="idu"><i></i></label></div></div>
-<label>Wearable pool override (optional)</label><input type="number" id="pov" placeholder="Leave blank to use current pool">
-<details><summary>Advanced: weights</summary><div class="wt" id="wt"></div><button style="margin-top:12px" onclick="resetW()">Restore default weights</button></details>
-</div></div>
-<div><div class="res" id="res"></div></div>
+<nav><div class="brand"><b>R</b>Reputable</div><button class="navbtn" onclick="openSet()">⚙ AI settings</button></nav>
+<main>
+<section class="hero"><h1>How hard will this study be to recruit?</h1><p>Upload a study design and the form fills itself in, or enter the details by hand. The score, timeline, and ad spend update instantly. Calibrated on 24 past Reputable studies.</p></section>
+
+<div class="card drop" id="drop" tabindex="0">
+ <div class="ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v3a1 1 0 001 1h14a1 1 0 001-1v-3"/></svg></div>
+ <h2>Upload study design</h2><p>Drop a PDF, DOCX, or TXT here, or click to browse</p>
+ <p style="margin-top:8px"><button class="linkb" id="pasteBtn">or paste text instead</button></p>
+ <input type="file" id="file" accept=".pdf,.docx,.txt,.md,text/plain,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document" hidden>
+ <div class="status" id="status"></div>
+ <div class="paste" id="paste" onclick="event.stopPropagation()"><textarea id="pasteTxt" placeholder="Paste the protocol or study design here…"></textarea><div style="margin-top:10px;display:flex;gap:8px;justify-content:flex-end"><button class="btn ghost" onclick="togglePaste(false)">Cancel</button><button class="btn" onclick="runText(document.getElementById('pasteTxt').value,'pasted text')">Fill the form</button></div></div>
 </div>
-<footer>Ranges are planning ranges, not promises. Model: Reputable Recruiting Scorecard v2 (Oct 2026).</footer>
+
+<div class="grid">
+<div class="card">
+ <div class="sec">Study design <span id="autoNote" class="small" style="text-transform:none;letter-spacing:0;font-weight:500"></span></div>
+ <div class="chips"><button class="chip" onclick="ex('percepta')">Example: Percepta</button><button class="chip" onclick="ex('tsi')">Example: TSI</button><button class="chip" onclick="ex('blank')">Reset</button></div>
+ <div class="f" data-f="name"><label>Study name</label><input type="text" id="name"><div class="why"></div></div>
+ <div class="r2"><div class="f" data-f="N"><label>Participants to enroll</label><input type="number" id="N" min="1"><div class="why"></div></div><div class="f" data-f="win"><label>Deadline (days to fill)</label><input type="number" id="win" min="1"><div class="why"></div></div></div>
+ <div class="f" data-f="design"><label>Study type</label><select id="design"></select><div class="why"></div></div>
+ <div class="r2"><div class="f" data-f="wear"><label>Wearable required</label><select id="wear"></select><div class="why"></div></div><div class="f" data-f="base"><label>Baseline days needed</label><input type="number" id="base" min="0"><div class="why"></div></div></div>
+ <div class="f" data-f="inc"><label>Who qualifies? (strictest that applies)</label><select id="inc"></select><div class="why"></div></div>
+ <div class="r2"><div class="f" data-f="sq"><label>Screening questions</label><input type="number" id="sq" min="0"><div class="why"></div></div><div class="f" data-f="dur"><label>Study length (days)</label><input type="number" id="dur" min="1"><div class="why"></div></div></div>
+ <div class="f" data-f="labs"><label>At-home labs / samples</label><select id="labs"></select><div class="why"></div></div>
+ <div class="f" data-f="cat"><label>Product category</label><select id="cat"></select><div class="why"></div></div>
+ <div style="margin-top:16px">
+  <div class="f togw" data-f="vs" style="margin:0"><div class="tog" style="width:100%"><span>Validated-scale screen (MoCA, FSFI…)</span><label class="sw"><input type="checkbox" id="vs"><i></i></label></div><div class="why"></div></div>
+  <div class="f togw" data-f="ship" style="margin:0"><div class="tog" style="width:100%"><span>Shipped product</span><label class="sw"><input type="checkbox" id="ship"><i></i></label></div><div class="why"></div></div>
+  <div class="f togw" data-f="idu" style="margin:0"><div class="tog" style="width:100%"><span>ID upload / extra verification step</span><label class="sw"><input type="checkbox" id="idu"><i></i></label></div><div class="why"></div></div>
+ </div>
+ <div class="f" data-f="pov"><label>Wearable pool override (optional)</label><input type="number" id="pov" placeholder="Leave blank to use the current pool"></div>
+ <details style="margin-top:20px"><summary>Advanced: weights</summary><div class="wt" id="wt"></div><button class="btn ghost" style="margin-top:14px" onclick="resetW()">Restore default weights</button></details>
+</div>
+<div class="sticky" id="res"></div>
+</div>
+</main>
+<footer>Ranges are planning ranges, not promises · Reputable Recruiting Scorecard v2 · Oct 2026</footer>
+
+<div class="modal" id="set" onclick="if(event.target===this)closeSet()"><div class="card">
+ <h3>AI settings</h3><p class="small">Used only to read uploaded study designs. Your key is stored in this browser only (localStorage) and sent straight to the provider. It is never saved to this site.</p>
+ <div class="f"><label>Provider</label><select id="prov"><option value="anthropic">Anthropic (Claude)</option><option value="openai">OpenAI</option></select></div>
+ <div class="f"><label>API key</label><input type="password" id="key" placeholder="sk-ant-…" autocomplete="off"></div>
+ <div class="f"><label>Model</label><input type="text" id="mdl"></div>
+ <div style="display:flex;gap:8px;margin-top:18px;justify-content:space-between;flex-wrap:wrap"><button class="btn ghost" onclick="forgetKey()">Forget key</button><span style="display:flex;gap:8px"><button class="btn ghost" onclick="closeSet()">Cancel</button><button class="btn" onclick="saveSet()">Save</button></span></div>
+ <p class="small" id="setMsg" style="margin-top:10px"></p>
+</div></div>
+
 <script>
 const D={
  nT:[[15,1],[30,2],[50,3],[80,5],[120,6],[200,8],[1e9,10]],sqPer:0.35,sqMax:6,
@@ -112,18 +178,29 @@ function model(s){
  if(!F.length)G("No major risk flags");
  return{score,bd,dims,pool,ep,dmid,dlo:Math.round(dmid*W.dlo),dhi:Math.round(dmid*W.dhi),cpo,paid,ps,sp,slo:sp*W.slo,shi:sp*hiM,press,F,red};
 }
+
+Object.assign(BC,{"Easy":"#2f9e6e","Moderate":"#7fae1f","Hard":"#e0a030","Very Hard":"#e06c3a","Extreme":"#d1495b"});
+const BG={"Easy":"#e3f4ea","Moderate":"#eef6d8","Hard":"#fbf0d9","Very Hard":"#fce7dc","Extreme":"#fbe3e6"};
 function read(){const g=id=>$(id),n=id=>+g(id).value||0;return{name:g('name').value,N:n('N'),win:n('win'),design:g('design').value,wear:g('wear').value,base:n('base'),inc:g('inc').value,vs:g('vs').checked,sq:n('sq'),dur:n('dur'),labs:g('labs').value,ship:g('ship').checked,idu:g('idu').checked,cat:g('cat').value,pov:n('pov')}}
+const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let first=true;
 function calc(){const s=read(),m=model(s),c=BC[m.bd],col={r:'var(--red)',y:'var(--amb)',g:'var(--grn)'};
  const ot=m.dmid<=s.win?"Likely on time":m.dmid*W.dlo<=s.win?"At risk for your deadline":"Unlikely to hit your deadline";
- $('res').innerHTML=`
- <div class="card score"><div class="big" style="color:${c}">${m.score}</div><div style="flex:1"><div class="k">Difficulty score${s.name?' · '+s.name.replace(/</g,''):''}</div>
- <span class="band" style="background:${c}">${m.bd}</span><div class="n">${BM[m.bd]}</div><div class="bar"><div style="width:${m.score}%;background:${c}"></div></div></div></div>
- <div class="card"><div class="k">Days to fill</div><div class="v">${m.dlo}–${m.dhi}</div><div class="n">Midpoint ${Math.round(m.dmid)} days · ${ot}</div></div>
- <div class="card"><div class="k">Ads needed?</div><div class="v" style="color:${m.ps>0?'var(--amb)':'var(--grn)'}">${m.ps>0?'Yes':'No'}</div><div class="n">${m.ps>0?`About ${Math.round(m.ps*100)}% of onboards from paid ads`:'Organic + newsletter should cover it'}</div></div>
- <div class="card"><div class="k">Ad spend</div><div class="v">${m.sp<=0?'$0':money(m.slo)+'–'+money(m.shi)}</div><div class="n">${m.sp<=0?'No ads planned':'Midpoint '+money(m.sp)+' · '+money(m.paid)+' per ad-driven onboard'}</div></div>
- <div class="card"><div class="k">Eligible pool</div><div class="v">${Math.round(m.ep).toLocaleString()}</div><div class="n">of ${Math.round(m.pool).toLocaleString()} wearable owners · target is ${Math.round(m.press*100)}%</div></div>
- <div class="card flags"><div class="k" style="margin-bottom:4px">Risk flags</div>${m.F.map(f=>`<div class="flag"><span class="dot" style="background:${col[f[0]]}"></span><span>${f[1]}</span></div>`).join('')}</div>
- <div class="card flags"><details><summary>Score breakdown</summary><table class="bd">${m.dims.map(d=>`<tr><td>${d[0]}</td><td>${+d[1].toFixed(1)}</td></tr>`).join('')}<tr><td><b>Total (max 100)</b></td><td><b>${m.score}</b></td></tr></table></details></div>`;}
+ const C=2*Math.PI*54;
+ if(!$('ringP')){ $('res').innerHTML=`<div class="card"><div class="sec">Difficulty</div><div class="hero-res"><div class="ring"><svg width="132" height="132"><circle class="tr" cx="66" cy="66" r="54"/><circle class="pr" id="ringP" cx="66" cy="66" r="54" stroke-dasharray="${C}" stroke-dashoffset="${C}"/></svg><div class="num"><div><span id="scoreN">0</span><small>of 100</small></div></div></div><div><div id="sname" class="small" style="margin-bottom:6px"></div><span class="pill" id="pill"></span><div class="mean" id="mean"></div></div></div></div><div class="kpis" id="kpis"></div><div class="card" style="margin-top:14px"><div class="sec">Risk flags</div><div id="flags"></div></div><div class="card" style="margin-top:14px"><details><summary>Score breakdown</summary><table class="bd" id="bd"></table></details></div>`;}
+ requestAnimationFrame(()=>{const p=$('ringP');p.style.strokeDashoffset=C*(1-m.score/100);p.style.stroke=c;});
+ animN($('scoreN'),m.score);
+ $('sname').textContent=s.name||'';const pl=$('pill');pl.textContent=m.bd;pl.style.background=BG[m.bd];pl.style.color=c;$('mean').textContent=BM[m.bd];
+ $('kpis').innerHTML=`
+ <div class="card kpi fade"><div class="k">Days to fill</div><div class="v">${m.dlo}–${m.dhi}</div><div class="n">Midpoint ${Math.round(m.dmid)} days · ${ot}</div></div>
+ <div class="card kpi fade"><div class="k">Ads needed?</div><div class="v" style="color:${m.ps>0?'#c27a10':'var(--grn)'}">${m.ps>0?'Yes':'No'}</div><div class="n">${m.ps>0?`About ${Math.round(m.ps*100)}% of onboards from paid ads`:'Organic + newsletter should cover it'}</div></div>
+ <div class="card kpi fade"><div class="k">Ad spend</div><div class="v">${m.sp<=0?'$0':money(m.slo)+'–'+money(m.shi)}</div><div class="n">${m.sp<=0?'No ads planned':'Midpoint '+money(m.sp)+' · '+money(m.paid)+' per ad-driven onboard'}</div></div>
+ <div class="card kpi fade"><div class="k">Eligible pool</div><div class="v">${Math.round(m.ep).toLocaleString()}</div><div class="n">of ${Math.round(m.pool).toLocaleString()} wearable owners · target is ${Math.round(m.press*100)}%</div></div>`;
+ $('flags').innerHTML=m.F.map(f=>`<div class="flag"><span class="dot" style="background:${col[f[0]]}"></span><span>${esc(f[1])}</span></div>`).join('');
+ $('bd').innerHTML=m.dims.map(d=>`<tr><td>${d[0]}</td><td>${+d[1].toFixed(1)}</td></tr>`).join('')+`<tr><td><b>Total (max 100)</b></td><td><b>${m.score}</b></td></tr>`;
+ window.__last=m;}
+function animN(el,to){const from=+el.textContent||0,t0=performance.now();cancelAnimationFrame(el._r);const st=t=>{const k=Math.min(1,(t-t0)/700),e=1-Math.pow(1-k,3);el.textContent=Math.round(from+(to-from)*e);if(k<1)el._r=requestAnimationFrame(st)};el._r=requestAnimationFrame(st)}
+
 function buildW(){const items=[["h","Points"],["Validated-scale screen points","vs"],["ID upload points","idu"],["Shipped product points","ship"],["Compounding friction bonus","cmp"],["Screening points per question","sqPer"],["Screening points max","sqMax"]];
  let h='';for(const it of items)h+=it[0]=="h"?`<h3>${it[1]}</h3>`:`<span>${it[0]}</span><input type="number" step="any" data-k="${it[1]}" value="${W[it[1]]}">`;
  h+='<h3>Who qualifies (points / pass rate)</h3>';for(const k in W.inc)h+=`<span>${k}</span><span style="display:flex;gap:4px"><input type="number" step="any" data-m="inc|${k}|0" value="${W.inc[k][0]}"><input type="number" step="any" data-m="inc|${k}|1" value="${W.inc[k][1]}"></span>`;
@@ -133,7 +210,94 @@ function buildW(){const items=[["h","Points"],["Validated-scale screen points","
  $('wt').innerHTML=h;
  $('wt').querySelectorAll('input').forEach(i=>i.oninput=()=>{const v=+i.value;if(i.dataset.k)W[i.dataset.k]=v;else{const[a,b,c]=i.dataset.m.split('|');if(c!==undefined)W[a][b][+c]=v;else W[a][b]=v}calc()});}
 function resetW(){W=JSON.parse(JSON.stringify(D));buildW();calc()}
-document.querySelectorAll('input,select').forEach(e=>{if(!e.closest('#wt'))e.addEventListener('input',calc)});
+
+/* ---------- AI extraction ---------- */
+const DEF_MODEL={anthropic:"claude-sonnet-4-6",openai:"gpt-4.1"};
+const MAXCH=60000;
+const FIELDS=["name","N","win","design","wear","base","inc","vs","sq","dur","labs","ship","idu","cat"];
+function buildPrompt(text){
+ const L=o=>Object.keys(o).map(k=>JSON.stringify(k)).join(", ");
+ return `You extract recruiting inputs from a clinical/consumer study design for Reputable's recruiting scorecard.
+Return ONLY a JSON object, no prose, no markdown fences, with EXACTLY these keys. Each key maps to {"value": ..., "confidence": "high"|"medium"|"low", "rationale": "<= 20 words quoting or citing the document"}.
+Keys and allowed values:
+- "name": string, short study name (include brand if stated).
+- "N": integer, target number of participants to enroll/onboard (total across arms).
+- "win": integer, days available to fully recruit if stated; otherwise 30 with confidence "low".
+- "design": one of [${L(W.design)}]. VEP = virtual/at-home product evaluation with no control; RWE single-arm = one-arm real-world evidence; RCT 2-arm = randomized with 2 arms (incl. placebo); RCT 3+ arm = 3 or more arms.
+- "wear": one of [${L(W.wear)}]. Use "Any wearable" if any device is accepted; "None / device provided" if no wearable needed or the study ships one.
+- "base": integer, wearable baseline days required before product start (0 if none).
+- "inc": one of [${L(W.inc)}]. Pick the STRICTEST positive inclusion that applies: Medical condition (diagnosed/chronic condition) > Wearable-data threshold (e.g. sleep score below X) > Soft symptom (self-reported) > Lifestyle habit (e.g. drinks coffee daily) > Demographic (age/sex only) > None.
+- "vs": boolean, true only if eligibility requires passing a validated scale or cognitive test (MoCA, FSFI, PSQI cutoff, etc.).
+- "sq": integer, number of screening/eligibility questions (estimate from inclusion+exclusion criteria count if not stated, confidence "low").
+- "dur": integer, study length in days from product start to end (weeks x 7, months x 30.4, rounded).
+- "labs": one of [${L(W.labs)}]. Blood draw includes finger-prick/dried blood spot.
+- "ship": boolean, true if product is shipped to participants.
+- "idu": boolean, true if ID upload, photo verification, intro call, or similar extra verification step is required.
+- "cat": one of [${L(W.cat)}]. Pick the closest.
+Use only the allowed strings, spelled exactly. If unknown, choose the most likely value and set confidence "low".
+
+STUDY DESIGN:
+"""
+${text}
+"""`;}
+function truncate(t){t=t.replace(/[ \t]+/g,' ').replace(/\n{3,}/g,'\n\n').trim();if(t.length<=MAXCH)return{t,cut:false};return{t:t.slice(0,MAXCH*0.75)+"\n\n[...middle of document omitted for length...]\n\n"+t.slice(-MAXCH*0.25),cut:true}}
+function parseJSON(raw){let s=String(raw).trim().replace(/^```(?:json)?/i,'').replace(/```$/,'').trim();const a=s.indexOf('{'),b=s.lastIndexOf('}');if(a<0||b<0)throw new Error("The AI reply wasn't JSON.");return JSON.parse(s.slice(a,b+1))}
+function normalize(j){const out={};const pick=(v,o)=>{if(v==null)return null;const ks=Object.keys(o);return ks.find(k=>k===v)||ks.find(k=>k.toLowerCase()===String(v).toLowerCase())||ks.find(k=>k.toLowerCase().startsWith(String(v).toLowerCase().slice(0,5)))||null};
+ const bool=v=>typeof v==='boolean'?v:/^(y|yes|true|1)$/i.test(String(v));
+ const int=v=>{const n=parseInt(String(v).replace(/[^0-9.-]/g,''),10);return isNaN(n)?null:Math.max(0,n)};
+ for(const f of FIELDS){const e=j[f];if(e==null)continue;const o=(typeof e==='object'&&!Array.isArray(e)&&'value'in e)?e:{value:e};let v=o.value;
+  if(["N","win","base","sq","dur"].includes(f))v=int(v);else if(["vs","ship","idu"].includes(f))v=bool(v);
+  else if(f==="design")v=pick(v,W.design);else if(f==="wear")v=pick(v,W.wear);else if(f==="inc")v=pick(v,W.inc);else if(f==="labs")v=pick(v,W.labs);else if(f==="cat")v=pick(v,W.cat);else v=String(v||'').slice(0,120);
+  if(v===null||v==='')continue;out[f]={value:v,confidence:/^(high|medium|low)$/i.test(o.confidence)?o.confidence.toLowerCase():'medium',rationale:String(o.rationale||'').slice(0,240)}}
+ return out}
+function applyFill(fill){clearAuto();let n=0;for(const f in fill){const el=$(f);if(!el)continue;const v=fill[f].value;if(el.type==='checkbox')el.checked=!!v;else el.value=v;
+  const wrap=document.querySelector(`.f[data-f="${f}"]`);if(wrap){wrap.classList.add('auto');const w=wrap.querySelector('.why');if(w)w.innerHTML=`<span class="conf c-${fill[f].confidence}">${fill[f].confidence}</span>${esc(fill[f].rationale)}`;wrap.title=fill[f].rationale}n++}
+ $('autoNote').textContent=n?`${n} fields auto-filled (highlighted). Check and edit.`:'';calc();return n}
+function clearAuto(){document.querySelectorAll('.f.auto').forEach(w=>{w.classList.remove('auto');w.title=''});$('autoNote').textContent=''}
+async function callAI(prompt){const p=localStorage.getItem('rrs_prov')||'anthropic',key=localStorage.getItem('rrs_key'),mdl=localStorage.getItem('rrs_model')||DEF_MODEL[p];
+ if(!key){openSet();throw new Error("Add your AI key in AI settings first.")}
+ let r;try{
+  if(p==='anthropic')r=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"content-type":"application/json","x-api-key":key,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},body:JSON.stringify({model:mdl,max_tokens:2000,temperature:0,messages:[{role:"user",content:prompt}]})});
+  else r=await fetch("https://api.openai.com/v1/chat/completions",{method:"POST",headers:{"content-type":"application/json","authorization":"Bearer "+key},body:JSON.stringify({model:mdl,temperature:0,response_format:{type:"json_object"},messages:[{role:"user",content:prompt}]})});
+ }catch(e){throw new Error("Couldn't reach the AI service (network or browser blocking). Check your connection and try again.")}
+ let body;try{body=await r.json()}catch(e){body={}}
+ if(r.status===401||r.status===403)throw new Error("The API key was rejected. Check it in AI settings.");
+ if(r.status===404)throw new Error(`Model "${mdl}" wasn't found. Change it in AI settings.`);
+ if(r.status===429)throw new Error("Rate limit or credit limit reached. Wait a minute and try again.");
+ if(!r.ok)throw new Error((body.error&&body.error.message)||("AI error "+r.status));
+ return p==='anthropic'?(body.content||[]).map(c=>c.text||'').join(''):body.choices[0].message.content}
+function status(msg,kind){const s=$('status');s.className='status on '+(kind||'');s.innerHTML=(kind==='busy'?'<span class="spin"></span>':'')+esc(msg)}
+async function runText(text,label){
+ if(!text||text.trim().length<40){status("There isn't enough text to read. Try another file or paste the design.","err");return}
+ const {t,cut}=truncate(text);status(`Reading ${label}${cut?' (long document, trimmed)':''}…`,'busy');
+ try{const raw=await callAI(buildPrompt(t));const n=applyFill(normalize(parseJSON(raw)));
+  status(n?`Filled ${n} fields from ${label}. Highlighted fields are AI suggestions; edit anything that looks off.`:"The AI couldn't find usable fields.",n?'ok':'err');togglePaste(false);
+  document.querySelector('.grid').scrollIntoView({behavior:'smooth'});}
+ catch(e){status(e.message||String(e),'err')}}
+async function fileText(f){const n=f.name.toLowerCase();
+ if(f.size>25e6)throw new Error("That file is over 25 MB. Try a smaller export or paste the relevant sections.");
+ if(n.endsWith('.pdf')){if(!window.pdfjsLib)throw new Error("The PDF reader didn't load. Check your connection, or paste the text.");pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+  const pdf=await pdfjsLib.getDocument({data:await f.arrayBuffer()}).promise;let out='';for(let i=1;i<=Math.min(pdf.numPages,80);i++){const c=await (await pdf.getPage(i)).getTextContent();out+=c.items.map(x=>x.str).join(' ')+'\n';if(out.length>MAXCH*2)break}
+  if(out.trim().length<40)throw new Error("This PDF looks scanned (no selectable text). Paste the text instead.");return out}
+ if(n.endsWith('.docx')){if(!window.mammoth)throw new Error("The Word reader didn't load. Check your connection, or paste the text.");return (await mammoth.extractRawText({arrayBuffer:await f.arrayBuffer()})).value}
+ if(n.endsWith('.txt')||n.endsWith('.md')||f.type.startsWith('text/'))return await f.text();
+ if(n.endsWith('.doc'))throw new Error("Old .doc files aren't supported. Save as DOCX or PDF.");
+ throw new Error("Please upload a PDF, DOCX, or TXT file.")}
+async function handleFile(f){if(!f)return;status(`Opening ${f.name}…`,'busy');try{const t=await fileText(f);await runText(t,f.name)}catch(e){status(e.message,'err')}}
+function togglePaste(on){$('paste').classList.toggle('on',on);if(on)$('pasteTxt').focus()}
+const dz=$('drop');dz.onclick=e=>{if(e.target.closest('.paste,#pasteBtn'))return;$('file').click()};
+dz.onkeydown=e=>{if(e.key==='Enter')$('file').click()};
+$('pasteBtn').onclick=e=>{e.stopPropagation();togglePaste(!$('paste').classList.contains('on'))};
+$('file').onchange=e=>{handleFile(e.target.files[0]);e.target.value=''};
+['dragenter','dragover'].forEach(ev=>dz.addEventListener(ev,e=>{e.preventDefault();dz.classList.add('over')}));
+['dragleave','drop'].forEach(ev=>dz.addEventListener(ev,e=>{e.preventDefault();dz.classList.remove('over')}));
+dz.addEventListener('drop',e=>handleFile(e.dataTransfer.files[0]));
+function openSet(){const p=localStorage.getItem('rrs_prov')||'anthropic';$('prov').value=p;$('key').value=localStorage.getItem('rrs_key')||'';$('mdl').value=localStorage.getItem('rrs_model')||DEF_MODEL[p];$('setMsg').textContent=localStorage.getItem('rrs_key')?'A key is saved in this browser.':'No key saved yet.';$('set').classList.add('on')}
+function closeSet(){$('set').classList.remove('on')}
+$('prov').onchange=()=>{$('mdl').value=DEF_MODEL[$('prov').value];$('key').placeholder=$('prov').value==='openai'?'sk-…':'sk-ant-…'};
+function saveSet(){const k=$('key').value.trim();if(!k){$('setMsg').textContent='Paste a key first.';return}localStorage.setItem('rrs_prov',$('prov').value);localStorage.setItem('rrs_key',k);localStorage.setItem('rrs_model',$('mdl').value.trim()||DEF_MODEL[$('prov').value]);$('setMsg').textContent='Saved in this browser.';setTimeout(closeSet,500)}
+function forgetKey(){localStorage.removeItem('rrs_key');$('key').value='';$('setMsg').textContent='Key removed from this browser.'}
+const _ex=ex;ex=k=>{clearAuto();_ex(k)};
+document.querySelectorAll('input,select').forEach(e=>{if(!e.closest('#wt,#set'))e.addEventListener('input',calc)});
 buildW();ex('percepta');
-if(typeof module!=='undefined')module.exports={model};
 </script></body></html>
